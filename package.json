@@ -1,0 +1,66 @@
+{
+	"author": {
+		"name": "Baptiste Pillot",
+		"email": "baptiste@pillot.fr"
+	},
+	"dependencies": {
+		"@itrocks/action": "latest",
+		"@itrocks/action-bar": "latest",
+		"@itrocks/action-request": "latest",
+		"@itrocks/auto-redirect": "latest",
+		"@itrocks/data-to-object": "latest",
+		"@itrocks/edit": "latest",
+		"@itrocks/output": "latest",
+		"@itrocks/sql-functions": "latest",
+		"@itrocks/storage": "latest",
+		"@itrocks/store": "latest",
+		"@itrocks/translate": "latest",
+		"@itrocks/user": "latest",
+		"@itrocks/ux-core": "latest",
+		"html-to-text": "^9.0",
+		"nodemailer": "^6.9"
+	},
+	"description": "Forgot password management for @itrocks/user, including form, token generation, email sending, and secure reset",
+	"devDependencies": {
+		"sass": "^1.83",
+		"typescript": "~5.6"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"exports": "./cjs/forgot.js",
+	"homepage": "https://it.rocks",
+	"files": [
+		"LICENSE",
+		"README.md",
+		"routes.json",
+		"cjs/*",
+		"css/*",
+		"!*.map"
+	],
+	"keywords": [
+		"account",
+		"authentication",
+		"backend",
+		"forgot",
+		"it.rocks",
+		"password",
+		"recovery",
+		"reset",
+		"security",
+		"token",
+		"user"
+	],
+	"license": "ISC",
+	"name": "@itrocks/forgot-password",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/itrocks-ts/forgot-password.git"
+	},
+	"scripts": {
+		"build": "tsc -p tsconfig.json && cp src/*.html cjs/ && npm run build:css",
+		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
+	},
+	"types": "./cjs/forgot.d.ts",
+	"version": "0.0.1"
+}
