@@ -4,19 +4,14 @@
 		"email": "baptiste@pillot.fr"
 	},
 	"dependencies": {
-		"@itrocks/action": "latest",
-		"@itrocks/action-bar": "latest",
-		"@itrocks/action-request": "latest",
+		"@itrocks/action-pack": "latest",
 		"@itrocks/auto-redirect": "latest",
-		"@itrocks/data-to-object": "latest",
+		"@itrocks/business-pack": "latest",
 		"@itrocks/edit": "latest",
 		"@itrocks/output": "latest",
 		"@itrocks/sql-functions": "latest",
-		"@itrocks/storage": "latest",
-		"@itrocks/store": "latest",
 		"@itrocks/translate": "latest",
 		"@itrocks/user": "latest",
-		"@itrocks/ux-core": "latest",
 		"html-to-text": "^9.0",
 		"nodemailer": "^6.9"
 	},
@@ -62,5 +57,5 @@
 		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
 	},
 	"types": "./cjs/forgot.d.ts",
-	"version": "0.0.1"
+	"version": "0.0.2"
 }
