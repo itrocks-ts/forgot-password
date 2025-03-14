@@ -17,6 +17,8 @@
 	},
 	"description": "Forgot password management for @itrocks/user, including form, token generation, email sending, and secure reset",
 	"devDependencies": {
+		"@types/html-to-text": "^9.0",
+		"@types/nodemailer": "^6.4",
 		"sass": "^1.83",
 		"typescript": "~5.6"
 	},
@@ -57,5 +59,5 @@
 		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
 	},
 	"types": "./cjs/forgot.d.ts",
-	"version": "0.0.2"
+	"version": "0.0.3"
 }

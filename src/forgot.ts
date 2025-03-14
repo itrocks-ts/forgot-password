@@ -8,8 +8,8 @@ import { User }            from '@itrocks/user'
 import { htmlToText }      from 'html-to-text'
 import { readFile }        from 'node:fs/promises'
 import { createTransport } from 'nodemailer'
-import smtp                from '../../../../app/config/smtp'
-import config              from '../../../../local/smtp'
+import { smtpConfig }      from '../../../../app/config/smtp'
+import { localSmtp }       from '../../../../local/smtp'
 import { Token }           from './token'
 
 export class Forgot extends Action
@@ -50,15 +50,16 @@ export class Forgot extends Action
 			if (user) {
 				const token = await dao.save(new Token(user))
 				const transporter = createTransport({
-					auth:   { pass: config.pass, user: config.user },
-					host:   config.host,
-					port:   config.port,
-					secure: config.secure,
+					auth:   { pass: localSmtp.pass, user: localSmtp.user },
+					host:   localSmtp.host,
+					port:   localSmtp.port,
+					secure: localSmtp.secure,
 				})
 				const content = (await readFile(__dirname + '/forgot-email-' + lang() + '.html')) + ''
 				const link    = request.request.url + '?token=' + token.token
-				const from    = (smtp.from.name ? ('"' + smtp.from.name + '" ') : '') + '<' + smtp.from.email + '>'
-				const html    = content.replaceAll('app://(resetLink)', link)
+				const from    = (smtpConfig.from.name ? ('"' + smtpConfig.from.name + '" ') : '')
+					+ '<' + smtpConfig.from.email + '>'
+				const html = content.replaceAll('app://(resetLink)', link)
 				try {
 					await transporter.sendMail({
 						from,
