@@ -7,6 +7,7 @@
 		"@itrocks/action-pack": "latest",
 		"@itrocks/auto-redirect": "latest",
 		"@itrocks/business-pack": "latest",
+		"@itrocks/config": "latest",
 		"@itrocks/edit": "latest",
 		"@itrocks/output": "latest",
 		"@itrocks/sql-functions": "latest",
@@ -28,9 +29,9 @@
 	"exports": "./cjs/forgot.js",
 	"homepage": "https://it.rocks",
 	"files": [
+		"config.yaml",
 		"LICENSE",
 		"README.md",
-		"routes.json",
 		"cjs/*",
 		"css/*",
 		"!*.map"
@@ -59,5 +60,5 @@
 		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
 	},
 	"types": "./cjs/forgot.d.ts",
-	"version": "0.0.5"
+	"version": "0.0.6"
 }

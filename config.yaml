@@ -1,0 +1,2 @@
+routes:
+  /user/forgot-password': '@itrocks/forgot-password'
