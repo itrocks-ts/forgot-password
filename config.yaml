@@ -3,4 +3,4 @@ access:
     - /user/forgot-password
 
 routes:
-  /user/forgot-password': '@itrocks/forgot-password'
+  /user/forgot-password: '@itrocks/forgot-password'
