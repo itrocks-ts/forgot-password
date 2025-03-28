@@ -1,2 +1,6 @@
+access:
+  free:
+    - /user/forgot-password
+
 routes:
   /user/forgot-password': '@itrocks/forgot-password'
