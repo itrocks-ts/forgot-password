@@ -16,7 +16,7 @@ export class Forgot extends Action
 
 	async html(request: Request<User>)
 	{
-		const dao = dataSource()
+		const dao        = dataSource()
 		let defaultUser  = new request.type
 		let templateName = 'forgot'
 		let user: User|undefined
@@ -27,24 +27,26 @@ export class Forgot extends Action
 			for (const oldToken of await dao.search(Token, { date: lessOrEqual(momentAgo) })) {
 				await dao.delete(oldToken, 'token')
 			}
-			const token     = (await dao.search(Token, { token: request.request.data.token }))[0]
-			const tokenUser = await token?.user
-			if (tokenUser) {
-				if (request.request.data.password) {
-					await dataToObject(tokenUser, { password: request.request.data.password })
-					await dao.save(tokenUser)
-					await dao.delete(token, 'token')
-					return this.htmlTemplateResponse(tokenUser, request, __dirname + '/forgot-done.html')
+			const token = await dao.searchOne(Token, { token: request.request.data.token })
+			if (token) {
+				const tokenUser = await token.user
+				if (tokenUser) {
+					if (request.request.data.password) {
+						await dataToObject(tokenUser, { password: request.request.data.password })
+						await dao.save(tokenUser)
+						await dao.delete(token, 'token')
+						return this.htmlTemplateResponse(tokenUser, request, __dirname + '/forgot-done.html')
+					}
+					tokenUser.password = ''
+					return this.htmlTemplateResponse(token, request, __dirname + '/forgot-reset.html')
 				}
-				tokenUser.password = ''
-				return this.htmlTemplateResponse(token, request, __dirname + '/forgot-reset.html')
 			}
 		}
 
 		const email = request.request.data.email
 		if (email && (typeof email === 'string')) {
 			defaultUser.email = email
-			user = (await dao.search(User, { email }))[0]
+			user = await dao.searchOne(User, { email })
 
 			if (user) {
 				const smtp  = config.smtp
