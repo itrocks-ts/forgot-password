@@ -1,5 +1,6 @@
 import { Action }          from '@itrocks/action'
 import { Request }         from '@itrocks/action-request'
+import { Type }            from '@itrocks/class-type'
 import { config }          from '@itrocks/config'
 import { dataToObject }    from '@itrocks/data-to-object'
 import { lessOrEqual }     from '@itrocks/sql-functions'
@@ -11,15 +12,14 @@ import { readFile }        from 'node:fs/promises'
 import { createTransport } from 'nodemailer'
 import { Token }           from './token'
 
-export class Forgot extends Action
+export class Forgot<T extends User = User> extends Action<T>
 {
 
-	async html(request: Request<User>)
+	async html(request: Request<T>)
 	{
+		const userType:  Type<User> = request.type
 		const dao        = dataSource()
-		let defaultUser  = new request.type
 		let templateName = 'forgot'
-		let user: User|undefined
 
 		if (request.request.data.token) {
 			const momentAgo = new Date()
@@ -44,9 +44,9 @@ export class Forgot extends Action
 		}
 
 		const email = request.request.data.email
+		let   user: User | undefined
 		if (email && (typeof email === 'string')) {
-			defaultUser.email = email
-			user = await dao.searchOne(User, { email })
+			user = await dao.searchOne(userType, { email })
 
 			if (user) {
 				const smtp  = config.smtp
@@ -76,11 +76,15 @@ export class Forgot extends Action
 				}
 			}
 			else {
+				user         = Object.assign(new userType, { email })
 				templateName = 'forgot-error'
 			}
 		}
+		else {
+			user = new userType
+		}
 
-		return this.htmlTemplateResponse(user ?? defaultUser, request, __dirname + '/' + templateName + '.html')
+		return this.htmlTemplateResponse(user, request, __dirname + '/' + templateName + '.html')
 	}
 
 }
