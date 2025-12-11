@@ -38,16 +38,24 @@
 	],
 	"keywords": [
 		"account",
+		"action",
+		"API",
 		"authentication",
 		"backend",
+		"component",
 		"forgot",
+		"forgot-password",
+		"html",
 		"it.rocks",
+		"json",
 		"password",
 		"recovery",
 		"reset",
 		"security",
+		"standard",
 		"token",
-		"user"
+		"user",
+		"view"
 	],
 	"license": "ISC",
 	"name": "@itrocks/forgot-password",
@@ -60,5 +68,5 @@
 		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
 	},
 	"types": "./cjs/forgot.d.ts",
-	"version": "0.0.14"
+	"version": "0.0.15"
 }
