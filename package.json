@@ -14,12 +14,12 @@
 		"@itrocks/translate": "latest",
 		"@itrocks/user": "latest",
 		"html-to-text": "^9.0",
-		"nodemailer": "^7.0"
+		"nodemailer": "^8.0"
 	},
 	"description": "Forgot password management for @itrocks/user, including form, token generation, email sending, and secure reset",
 	"devDependencies": {
 		"@types/html-to-text": "^9.0",
-		"@types/nodemailer": "^7.0",
+		"@types/nodemailer": "^8.0",
 		"sass": "^1.95",
 		"typescript": "~5.9"
 	},
@@ -68,5 +68,5 @@
 		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
 	},
 	"types": "./cjs/forgot.d.ts",
-	"version": "0.2.0"
+	"version": "0.2.1"
 }
