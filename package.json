@@ -64,8 +64,8 @@
 		"url": "git+https://github.com/itrocks-ts/forgot-password.git"
 	},
 	"scripts": {
-		"build": "tsc && cp src/*.html cjs/ && npm run build:css",
-		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
+		"build": "tsc && node -e \"const fs=require('node:fs'),path=require('node:path');for(const file of fs.readdirSync('src'))if(file.endsWith('.html'))fs.copyFileSync(path.join('src',file),path.join('cjs',file))\" && npm run build:css",
+		"build:css": "sass --no-source-map src:css && node -e \"const fs=require('node:fs'),path=require('node:path');for(const file of fs.readdirSync('src'))if(file.endsWith('.svg'))fs.copyFileSync(path.join('src',file),path.join('css',file))\""
 	},
-	"version": "0.2.4"
+	"version": "0.3.0"
 }
