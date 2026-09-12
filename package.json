@@ -8,18 +8,20 @@
 		"@itrocks/auto-redirect": "latest",
 		"@itrocks/business-pack": "latest",
 		"@itrocks/config": "latest",
+		"@itrocks/core-responses": "latest",
 		"@itrocks/edit": "latest",
 		"@itrocks/output": "latest",
 		"@itrocks/sql-functions": "latest",
 		"@itrocks/translate": "latest",
+		"@itrocks/unique": "latest",
 		"@itrocks/user": "latest",
 		"html-to-text": "^9.0",
-		"nodemailer": "^8.0"
+		"nodemailer": "^9.0"
 	},
 	"description": "Forgot password management for @itrocks/user, including form, token generation, email sending, and secure reset",
 	"devDependencies": {
 		"@types/html-to-text": "^9.0",
-		"@types/nodemailer": "^8.0",
+		"@types/nodemailer": "^7.0",
 		"sass": "^1.95",
 		"typescript": "^7.0"
 	},
@@ -30,6 +32,7 @@
 	"homepage": "https://it.rocks",
 	"files": [
 		"config.yaml",
+		"docs",
 		"LICENSE",
 		"README.md",
 		"cjs",
@@ -65,7 +68,8 @@
 	},
 	"scripts": {
 		"build": "tsc && node -e \"const fs=require('node:fs'),path=require('node:path');for(const file of fs.readdirSync('src'))if(file.endsWith('.html'))fs.copyFileSync(path.join('src',file),path.join('cjs',file))\" && npm run build:css",
-		"build:css": "sass --no-source-map src:css && node -e \"const fs=require('node:fs'),path=require('node:path');for(const file of fs.readdirSync('src'))if(file.endsWith('.svg'))fs.copyFileSync(path.join('src',file),path.join('css',file))\""
+		"build:css": "sass --no-source-map src:css && node -e \"const fs=require('node:fs'),path=require('node:path');for(const file of fs.readdirSync('src'))if(file.endsWith('.svg'))fs.copyFileSync(path.join('src',file),path.join('css',file))\"",
+		"test": "npm run build && node --test --test-isolation=none test/*.test.js"
 	},
-	"version": "0.3.0"
+	"version": "0.4.0"
 }
