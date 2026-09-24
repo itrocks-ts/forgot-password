@@ -16,6 +16,9 @@ import { randomBytes }     from 'node:crypto'
 import { readFile }        from 'node:fs/promises'
 import { createTransport } from 'nodemailer'
 
+export { Token }    from './token'
+export { TokenUse } from './token'
+
 type Dependencies = {
 	beforePasswordChanged: (user: User) => Promise<void>
 	mayRecover:            (user: User) => boolean | Promise<boolean>
