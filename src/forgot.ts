@@ -20,6 +20,7 @@ type Dependencies = {
 	beforePasswordChanged: (user: User) => Promise<void>
 	mayRecover:            (user: User) => boolean | Promise<boolean>
 	passwordChanged:       (user: User) => Promise<void>
+	resetUrl:              (request: Request<User>, secret: string) => string
 }
 
 const dependencyScope = globalThis as typeof globalThis & {
@@ -29,7 +30,8 @@ const dependencyScope = globalThis as typeof globalThis & {
 const depends: Dependencies = dependencyScope.itrocksForgotPasswordDependencies ??= {
 	beforePasswordChanged: async () => undefined,
 	mayRecover:            () => true,
-	passwordChanged:       async () => undefined
+	passwordChanged:       async () => undefined,
+	resetUrl:              (request, secret) => request.request.url + '?token=' + secret
 }
 
 export function forgotPasswordDependsOn(dependencies: Partial<Dependencies>)
@@ -63,8 +65,8 @@ export class Forgot<T extends User = User> extends Action<T>
 		if (requestToken) {
 			const token = await dao.searchOne(Token, { tokenHash: Token.hash(requestToken) })
 			if (token && (Date.parse(token.expiresAt) > now.getTime())) {
-				const password  = request.request.data.password
-				const tokenUser = await dao.searchOne(userType, { login: token.userLogin })
+				const password = request.request.data.password
+				const tokenUser = await dao.read(userType, token.userKey).catch(() => undefined)
 				if (tokenUser && (typeof password === 'string') && password.length && (password.length <= 1024)) {
 					try {
 						await dao.save(new TokenUse(token.tokenHash, now))
@@ -99,9 +101,13 @@ export class Forgot<T extends User = User> extends Action<T>
 				await dao.save(new Token(user, secret, now))
 				const content     = (await readFile(__dirname + '/forgot-email-' + lang() + '.html')) + ''
 				const from        = (smtp.from.name ? ('"' + smtp.from.name + '" ') : '') + '<' + smtp.from.email + '>'
-				const html        = content.replaceAll('app://(resetLink)', request.request.url + '?token=' + secret)
+				const html        = content.replaceAll(
+					'app://(resetLink)', depends.resetUrl(request as Request<User>, secret)
+				)
 				const transporter = createTransport({
 					auth:   { pass: smtp.pass, user: smtp.user },
+					disableFileAccess: true,
+					disableUrlAccess:  true,
 					host:   smtp.host,
 					port:   smtp.port,
 					secure: smtp.secure,

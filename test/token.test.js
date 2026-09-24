@@ -11,7 +11,7 @@ describe('password reset token', () => {
 
 		assert.equal(token.tokenHash, Token.hash('raw-recovery-secret'))
 		assert.notEqual(token.tokenHash, 'raw-recovery-secret')
-		assert.equal(token.userLogin, 'alice')
+		assert.equal(token.userKey, '42')
 		assert.equal(Date.parse(token.expiresAt), now.getTime() + tokenLifetimeMs)
 		assert.doesNotMatch(JSON.stringify(token), /raw-recovery-secret/)
 	})
