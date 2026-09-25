@@ -1,8 +1,8 @@
 import { isIdentifier } from '@itrocks/storage'
-import { Store }      from '@itrocks/store'
-import { Unique }     from '@itrocks/unique'
-import { User }       from '@itrocks/user'
-import { createHash } from 'node:crypto'
+import { Store }        from '@itrocks/store'
+import { Unique }       from '@itrocks/unique'
+import { User }         from '@itrocks/user'
+import { createHash }   from 'node:crypto'
 
 export const tokenLifetimeMs = 60 * 60 * 1000
 

@@ -1,6 +1,3 @@
-import { Token }           from './token'
-import { tokenLifetimeMs } from './token'
-import { TokenUse }        from './token'
 import { Request }         from '@itrocks/action-request'
 import { Action }          from '@itrocks/action'
 import { Type }            from '@itrocks/class-type'
@@ -15,6 +12,9 @@ import { htmlToText }      from 'html-to-text'
 import { randomBytes }     from 'node:crypto'
 import { readFile }        from 'node:fs/promises'
 import { createTransport } from 'nodemailer'
+import { Token }           from './token'
+import { tokenLifetimeMs } from './token'
+import { TokenUse }        from './token'
 
 export { Token }    from './token'
 export { TokenUse } from './token'
@@ -68,7 +68,7 @@ export class Forgot<T extends User = User> extends Action<T>
 		if (requestToken) {
 			const token = await dao.searchOne(Token, { tokenHash: Token.hash(requestToken) })
 			if (token && (Date.parse(token.expiresAt) > now.getTime())) {
-				const password = request.request.data.password
+				const password  = request.request.data.password
 				const tokenUser = await dao.read(userType, token.userKey).catch(() => undefined)
 				if (tokenUser && (typeof password === 'string') && password.length && (password.length <= 1024)) {
 					try {
@@ -104,9 +104,7 @@ export class Forgot<T extends User = User> extends Action<T>
 				await dao.save(new Token(user, secret, now))
 				const content     = (await readFile(__dirname + '/forgot-email-' + lang() + '.html')) + ''
 				const from        = (smtp.from.name ? ('"' + smtp.from.name + '" ') : '') + '<' + smtp.from.email + '>'
-				const html        = content.replaceAll(
-					'app://(resetLink)', depends.resetUrl(request as Request<User>, secret)
-				)
+				const html        = content.replaceAll('app://(resetLink)', depends.resetUrl(request, secret))
 				const transporter = createTransport({
 					auth:   { pass: smtp.pass, user: smtp.user },
 					disableFileAccess: true,
