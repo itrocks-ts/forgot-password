@@ -22,6 +22,7 @@
 	"description": "Forgot password management for @itrocks/user, including form, token generation, email sending, and secure reset",
 	"devDependencies": {
 		"@types/html-to-text": "^9.0",
+		"@types/node": "^24.1",
 		"@types/nodemailer": "^7.0",
 		"sass": "^1.95",
 		"typescript": "^7.0"
@@ -72,5 +73,5 @@
 		"build:css": "sass --no-source-map src:css && node -e \"const fs=require('node:fs'),path=require('node:path');for(const file of fs.readdirSync('src'))if(file.endsWith('.svg'))fs.copyFileSync(path.join('src',file),path.join('css',file))\"",
 		"test": "npm run build && node --test --test-isolation=none test/*.test.js"
 	},
-	"version": "0.4.3"
+	"version": "0.4.4"
 }
