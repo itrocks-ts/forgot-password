@@ -1,6 +1,5 @@
 import { Request }         from '@itrocks/action-request'
 import { Action }          from '@itrocks/action'
-import { Type }            from '@itrocks/class-type'
 import { config }          from '@itrocks/config'
 import { HtmlResponse }    from '@itrocks/core-responses'
 import { dataToObject }    from '@itrocks/data-to-object'
@@ -50,7 +49,7 @@ export class Forgot<T extends User = User> extends Action<T>
 		const dao = dataSource()
 		const now = new Date()
 
-		const userType: Type<User> = request.type
+		const userType = request.type
 
 		let templateName = 'forgot'
 
@@ -94,7 +93,7 @@ export class Forgot<T extends User = User> extends Action<T>
 		}
 
 		const email = request.request.data.email
-		let   user: User | undefined
+		let   user: T | undefined
 		if (email && (typeof email === 'string')) {
 			user = await dao.searchOne(userType, { email })
 
