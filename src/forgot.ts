@@ -93,9 +93,9 @@ export class Forgot<T extends User = User> extends Action<T>
 		}
 
 		const email = request.request.data.email
-		let   user: T | undefined
+		let   user: User | undefined
 		if (email && (typeof email === 'string')) {
-			user = await dao.searchOne(userType, { email })
+			user = await dao.searchOne<User>(userType, { email })
 
 			if (user && await depends.mayRecover(user)) {
 				const secret = randomBytes(32).toString('base64url')
